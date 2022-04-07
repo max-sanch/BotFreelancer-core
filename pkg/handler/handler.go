@@ -25,17 +25,17 @@ func (h *Handler) InitRoutes() *gin.Engine {
 	{
 		channels := api.Group("/channels")
 		{
-			channels.GET("/data")
-			channels.POST("/create")
-			channels.POST("/update")
-			channels.POST("/delete")
+			channels.GET("/data", h.getDataChannel)
+			channels.POST("/create", h.createChannel)
+			channels.POST("/update", h.updateChannel)
+			channels.POST("/delete", h.deleteChannel)
 		}
 
 		users := api.Group("/users")
 		{
-			users.GET("/data")
-			users.POST("/create")
-			users.POST("/update")
+			users.GET("/data", h.createUser)
+			users.POST("/create", h.createUser)
+			users.POST("/update", h.updateUser)
 		}
 	}
 

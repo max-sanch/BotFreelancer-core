@@ -1,2 +1,9 @@
 port: "8080"
-releaseMode: "True" # True or False
+releaseMode: "False" # True or False
+
+db:
+  host: "localhost"
+  port: "5436"
+  username: "admin"
+  dbname: "freelancer"
+  sslmode: "disable"
