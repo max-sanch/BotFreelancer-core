@@ -5,6 +5,18 @@ import (
 	"github.com/jmoiron/sqlx"
 )
 
+const (
+	usersTable = "users"
+	userSettingsTable = "user_settings"
+	userCategoriesTable = "user_categories"
+	channelsTable = "channels"
+	channelSettingsTable = "channel_settings"
+	channelCategoriesTable = "channel_categories"
+	categoriesTable = "categories"
+	freelanceDataTable = "freelance_data"
+	freelanceSectionsTable = "freelance_sections"
+)
+
 type Config struct {
 	Host string
 	Port string
@@ -15,9 +27,6 @@ type Config struct {
 }
 
 func NewPostgresDB(cfg Config) (*sqlx.DB, error) {
-	fmt.Printf("connect postgres://%s:%s@%s:%s/%s?sslmode=%s\n",
-		cfg.Username, cfg.Password, cfg.Host, cfg.Port, cfg.DBName, cfg.SSLMode)
-
 	db, err := sqlx.Open("postgres", fmt.Sprintf("postgres://%s:%s@%s:%s/%s?sslmode=%s",
 		cfg.Username, cfg.Password, cfg.Host, cfg.Port, cfg.DBName, cfg.SSLMode))
 	if err != nil {

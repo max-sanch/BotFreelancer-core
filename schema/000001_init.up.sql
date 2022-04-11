@@ -7,7 +7,7 @@ CREATE TABLE categories
 CREATE TABLE users
 (
     id serial not null unique,
-    tg_id bigint not null unique,
+    tg_id numeric not null unique,
     username varchar(256) not null
 );
 
@@ -15,9 +15,9 @@ CREATE TABLE user_settings
 (
     id serial not null unique,
     user_id integer references users (id) on delete cascade not null unique,
-    safe_deal boolean not null default false,
-    budget boolean not null default false,
-    term boolean not null default false
+    is_safe_deal boolean not null default false,
+    is_budget boolean not null default false,
+    is_term boolean not null default false
 );
 
 CREATE TABLE user_categories
@@ -30,7 +30,7 @@ CREATE TABLE user_categories
 CREATE TABLE channels
 (
     id serial not null unique,
-    api_id bigint not null unique,
+    api_id numeric not null unique,
     api_hash varchar(256) not null,
     name varchar(256) not null unique
 );
@@ -39,9 +39,9 @@ CREATE TABLE channel_settings
 (
     id serial not null unique,
     channel_id integer references channels (id) on delete cascade not null unique,
-    safe_deal boolean not null default false,
-    budget boolean not null default false,
-    term boolean not null default false
+    is_safe_deal boolean not null default false,
+    is_budget boolean not null default false,
+    is_term boolean not null default false
 );
 
 CREATE TABLE channel_categories
@@ -61,9 +61,9 @@ CREATE TABLE freelance_data
     title varchar(256) not null,
     body text not null,
     budget integer default null,
-    budget_per_hour boolean default null,
+    is_budget_per_hour boolean default null,
     term varchar(256) default null,
-    safe_deal boolean not null default false,
+    is_safe_deal boolean not null default false,
     datetime timestamp not null
 );
 
@@ -73,3 +73,29 @@ CREATE TABLE freelance_sections
     freelance_data_id integer references freelance_data (id) on delete cascade not null,
     name varchar(256) not null
 );
+
+CREATE FUNCTION insert_channel_categories(int[], int) RETURNS int AS $$
+DECLARE
+category_id int;
+BEGIN
+    FOREACH category_id IN ARRAY $1
+    LOOP
+      INSERT INTO channel_categories (channel_setting_id, category_id) VALUES
+      ($2, category_id);
+END LOOP;
+RETURN 1;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE FUNCTION insert_user_categories(int[], int) RETURNS int AS $$
+DECLARE
+category_id int;
+BEGIN
+    FOREACH category_id IN ARRAY $1
+    LOOP
+      INSERT INTO user_categories (user_setting_id, category_id) VALUES
+      ($2, category_id);
+END LOOP;
+RETURN 1;
+END;
+$$ LANGUAGE plpgsql;
