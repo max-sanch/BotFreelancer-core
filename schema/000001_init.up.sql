@@ -73,29 +73,3 @@ CREATE TABLE freelance_sections
     freelance_data_id integer references freelance_data (id) on delete cascade not null,
     name varchar(256) not null
 );
-
-CREATE FUNCTION insert_channel_categories(int[], int) RETURNS int AS $$
-DECLARE
-category_id int;
-BEGIN
-    FOREACH category_id IN ARRAY $1
-    LOOP
-      INSERT INTO channel_categories (channel_setting_id, category_id) VALUES
-      ($2, category_id);
-END LOOP;
-RETURN 1;
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE FUNCTION insert_user_categories(int[], int) RETURNS int AS $$
-DECLARE
-category_id int;
-BEGIN
-    FOREACH category_id IN ARRAY $1
-    LOOP
-      INSERT INTO user_categories (user_setting_id, category_id) VALUES
-      ($2, category_id);
-END LOOP;
-RETURN 1;
-END;
-$$ LANGUAGE plpgsql;

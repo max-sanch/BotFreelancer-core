@@ -15,7 +15,3 @@ DROP TABLE freelance_sections;
 DROP TABLE freelance_data;
 
 DROP TABLE categories;
-
-DROP FUNCTION insert_channel_categories;
-
-DROP FUNCTION insert_user_categories;

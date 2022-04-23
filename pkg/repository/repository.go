@@ -1,10 +1,8 @@
 package repository
 
 import (
-	"fmt"
 	"github.com/jmoiron/sqlx"
 	core "github.com/max-sanch/BotFreelancer-core"
-	"strings"
 )
 
 type Channel interface {
@@ -35,8 +33,4 @@ func NewRepository(db *sqlx.DB) *Repository {
 		Channel: NewChannelPostgres(db),
 		User: NewUserPostgres(db),
 	}
-}
-
-func arrayToString(a []int, delim string) string {
-	return strings.Trim(strings.Replace(fmt.Sprint(a), " ", delim, -1), "[]")
 }
