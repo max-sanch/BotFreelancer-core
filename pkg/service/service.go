@@ -6,31 +6,26 @@ import (
 )
 
 type Channel interface {
-	GetChannel(apiID int) (core.ChannelResponse, error)
-	CreateChannel(channelInput core.ChannelInput) (int, error)
-	UpdateChannel(channelInput core.ChannelInput) (int, error)
-	DeleteChannel(apiID int) error
+	GetByApiId(apiId int) (core.ChannelResponse, error)
+	Create(channelInput core.ChannelInput) (int, error)
+	Update(channelInput core.ChannelInput) (int, error)
+	Delete(apiID int) error
 }
 
 type User interface {
-	GetUser(tgID int) (core.UserResponse, error)
-	CreateUser(userInput core.UserInput) (int, error)
-	UpdateUser(userInput core.UserInput) (int, error)
-}
-
-type Parse interface {
-
+	GetByTgId(tgId int) (core.UserResponse, error)
+	Create(userInput core.UserInput) (int, error)
+	Update(userInput core.UserInput) (int, error)
 }
 
 type Service struct {
 	Channel
 	User
-	Parse
 }
 
 func NewService(repos *repository.Repository) *Service {
 	return &Service{
-		Channel: NewChannelService(repos.Channel),
-		User: NewUserService(repos.User),
+		Channel: NewChannelService(repos),
+		User:    NewUserService(repos),
 	}
 }

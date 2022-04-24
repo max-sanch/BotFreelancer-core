@@ -6,24 +6,24 @@ import (
 )
 
 const (
-	usersTable = "users"
-	userSettingsTable = "user_settings"
-	userCategoriesTable = "user_categories"
-	channelsTable = "channels"
-	channelSettingsTable = "channel_settings"
+	usersTable             = "users"
+	userSettingsTable      = "user_settings"
+	userCategoriesTable    = "user_categories"
+	channelsTable          = "channels"
+	channelSettingsTable   = "channel_settings"
 	channelCategoriesTable = "channel_categories"
-	categoriesTable = "categories"
-	freelanceDataTable = "freelance_data"
+	categoriesTable        = "categories"
+	freelanceTasksTable    = "freelance_tasks"
 	freelanceSectionsTable = "freelance_sections"
 )
 
 type Config struct {
-	Host string
-	Port string
+	Host     string
+	Port     string
 	Username string
 	Password string
-	DBName string
-	SSLMode string
+	DBName   string
+	SSLMode  string
 }
 
 func NewPostgresDB(cfg Config) (*sqlx.DB, error) {

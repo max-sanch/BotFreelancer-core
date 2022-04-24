@@ -6,30 +6,30 @@ import (
 	"net/http"
 )
 
-func (h *Handler) getDataChannel(c *gin.Context) {
-	tasks := make([]core.ChannelTask, 0)
-	tasks = append(tasks, core.ChannelTask{
-		APIID: 123456,
-		APIHash: "0123456789abcdef0123456789abcdef",
+func (h *Handler) getTasksChannel(c *gin.Context) {
+	tasks := make([]core.ChannelTaskResponse, 0)
+	tasks = append(tasks, core.ChannelTaskResponse{
+		ApiId: 123456,
+		ApiHash: "0123456789abcdef0123456789abcdef",
 		Title: "Test",
 		Body: "Body test",
 		Url: "github.com/max-sanch/BotFreelancer-core",
 	})
 
-	c.JSON(http.StatusOK, core.ChannelTaskResponse{
+	c.JSON(http.StatusOK, core.ChannelTasksResponse{
 		Tasks: tasks,
 	})
 }
 
 func (h *Handler) getChannel(c *gin.Context) {
-	var input core.ChannelAPIIDInput
+	var input core.ApiIdInput
 
 	if err := c.BindJSON(&input); err != nil {
 		NewErrorResponse(c, http.StatusBadRequest, err.Error())
 		return
 	}
 
-	channel, err := h.services.GetChannel(input.APIID)
+	channel, err := h.services.Channel.GetByApiId(input.ApiId)
 	if err != nil {
 		NewErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return
@@ -46,7 +46,7 @@ func (h *Handler) createChannel(c *gin.Context) {
 		return
 	}
 
-	id, err := h.services.CreateChannel(input)
+	id, err := h.services.Channel.Create(input)
 	if err != nil {
 		NewErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return
@@ -65,7 +65,7 @@ func (h *Handler) updateChannel(c *gin.Context) {
 		return
 	}
 
-	id, err := h.services.UpdateChannel(input)
+	id, err := h.services.Channel.Update(input)
 	if err != nil {
 		NewErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return
@@ -77,14 +77,14 @@ func (h *Handler) updateChannel(c *gin.Context) {
 }
 
 func (h *Handler) deleteChannel(c *gin.Context) {
-	var input core.ChannelAPIIDInput
+	var input core.ApiIdInput
 
 	if err := c.BindJSON(&input); err != nil {
 		NewErrorResponse(c, http.StatusBadRequest, err.Error())
 		return
 	}
 
-	if err := h.services.DeleteChannel(input.APIID); err != nil {
+	if err := h.services.Channel.Delete(input.ApiId); err != nil {
 		NewErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return
 	}

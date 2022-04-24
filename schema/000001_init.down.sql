@@ -12,6 +12,6 @@ DROP TABLE channels;
 
 DROP TABLE freelance_sections;
 
-DROP TABLE freelance_data;
+DROP TABLE freelance_tasks;
 
 DROP TABLE categories;

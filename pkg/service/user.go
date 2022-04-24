@@ -6,21 +6,21 @@ import (
 )
 
 type UserService struct {
-	repo repository.User
+	repo *repository.Repository
 }
 
-func NewUserService(repo repository.User) *UserService {
+func NewUserService(repo *repository.Repository) *UserService {
 	return &UserService{repo: repo}
 }
 
-func (s *UserService) GetUser(tgID int) (core.UserResponse, error) {
-	return s.repo.GetUser(tgID)
+func (s *UserService) GetByTgId(tgId int) (core.UserResponse, error) {
+	return s.repo.User.GetByTgId(tgId)
 }
 
-func (s *UserService) CreateUser(userInput core.UserInput) (int, error) {
-	return s.repo.CreateUser(userInput)
+func (s *UserService) Create(userInput core.UserInput) (int, error) {
+	return s.repo.User.Create(userInput)
 }
 
-func (s *UserService) UpdateUser(userInput core.UserInput) (int, error) {
-	return s.repo.UpdateUser(userInput)
+func (s *UserService) Update(userInput core.UserInput) (int, error) {
+	return s.repo.User.Update(userInput)
 }

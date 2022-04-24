@@ -1,5 +1,6 @@
 port: "8080"
 releaseMode: "False" # True or False
+url_parse_data: "localhost:8001/api/parse/data"
 
 db:
   host: "localhost"

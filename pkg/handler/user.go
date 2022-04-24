@@ -6,29 +6,29 @@ import (
 	"net/http"
 )
 
-func (h *Handler) getDataUser(c *gin.Context) {
-	tasks := make([]core.UserTask, 0)
-	tasks = append(tasks, core.UserTask{
-		TGID: 123456,
+func (h *Handler) getTasksUser(c *gin.Context) {
+	tasks := make([]core.UserTaskResponse, 0)
+	tasks = append(tasks, core.UserTaskResponse{
+		TgId: 123456,
 		Title: "Test",
 		Body: "Body test",
 		Url: "github.com/max-sanch/BotFreelancer-core",
 	})
 
-	c.JSON(http.StatusOK, core.UserTaskResponse{
+	c.JSON(http.StatusOK, core.UserTasksResponse{
 		Tasks: tasks,
 	})
 }
 
 func (h *Handler) getUser(c *gin.Context) {
-	var input core.UserAPIIDInput
+	var input core.TgIdInput
 
 	if err := c.BindJSON(&input); err != nil {
 		NewErrorResponse(c, http.StatusBadRequest, err.Error())
 		return
 	}
 
-	user, err := h.services.GetUser(input.TGID)
+	user, err := h.services.User.GetByTgId(input.TgId)
 	if err != nil {
 		NewErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return
@@ -45,7 +45,7 @@ func (h *Handler) createUser(c *gin.Context) {
 		return
 	}
 
-	id, err := h.services.CreateUser(input)
+	id, err := h.services.User.Create(input)
 	if err != nil {
 		NewErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return
@@ -64,7 +64,7 @@ func (h *Handler) updateUser(c *gin.Context) {
 		return
 	}
 
-	id, err := h.services.UpdateUser(input)
+	id, err := h.services.User.Update(input)
 	if err != nil {
 		NewErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return

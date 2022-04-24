@@ -6,25 +6,25 @@ import (
 )
 
 type ChannelService struct {
-	repo repository.Channel
+	repo *repository.Repository
 }
 
-func NewChannelService(repo repository.Channel) *ChannelService {
+func NewChannelService(repo *repository.Repository) *ChannelService {
 	return &ChannelService{repo: repo}
 }
 
-func (s *ChannelService) GetChannel(apiID int) (core.ChannelResponse, error) {
-	return s.repo.GetChannel(apiID)
+func (s *ChannelService) GetByApiId(apiId int) (core.ChannelResponse, error) {
+	return s.repo.Channel.GetByApiId(apiId)
 }
 
-func (s *ChannelService) CreateChannel(channelInput core.ChannelInput) (int, error) {
-	return s.repo.CreateChannel(channelInput)
+func (s *ChannelService) Create(channelInput core.ChannelInput) (int, error) {
+	return s.repo.Channel.Create(channelInput)
 }
 
-func (s *ChannelService) UpdateChannel(channelInput core.ChannelInput) (int, error) {
-	return s.repo.UpdateChannel(channelInput)
+func (s *ChannelService) Update(channelInput core.ChannelInput) (int, error) {
+	return s.repo.Channel.Update(channelInput)
 }
 
-func (s *ChannelService) DeleteChannel(apiID int) error {
-	return s.repo.DeleteChannel(apiID)
+func (s *ChannelService) Delete(apiId int) error {
+	return s.repo.Channel.Delete(apiId)
 }
