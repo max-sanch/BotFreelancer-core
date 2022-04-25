@@ -7,13 +7,11 @@ import (
 )
 
 func (h *Handler) getTasksUser(c *gin.Context) {
-	tasks := make([]core.UserTaskResponse, 0)
-	tasks = append(tasks, core.UserTaskResponse{
-		TgId: 123456,
-		Title: "Test",
-		Body: "Body test",
-		Url: "github.com/max-sanch/BotFreelancer-core",
-	})
+	tasks, err := h.services.User.GetTasks()
+	if err != nil {
+		NewErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
 
 	c.JSON(http.StatusOK, core.UserTasksResponse{
 		Tasks: tasks,

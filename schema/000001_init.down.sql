@@ -10,8 +10,8 @@ DROP TABLE channel_settings;
 
 DROP TABLE channels;
 
-DROP TABLE freelance_sections;
-
 DROP TABLE freelance_tasks;
 
 DROP TABLE categories;
+
+DROP TABLE last_parsed_tasks;

@@ -15,6 +15,7 @@ const (
 	categoriesTable        = "categories"
 	freelanceTasksTable    = "freelance_tasks"
 	freelanceSectionsTable = "freelance_sections"
+	lastParsedTasksTable   = "last_parsed_tasks"
 )
 
 type Config struct {

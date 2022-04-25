@@ -36,7 +36,7 @@ type TaskDataInput struct {
 	TaskUrl         string `json:"task_url" binding:"required"`
 	Category        string `json:"category" binding:"required"`
 	Title           string `json:"title" binding:"required"`
-	Body            string `json:"body" binding:"required"`
+	Description     string `json:"description" binding:"required"`
 	Budget          int    `json:"budget"`
 	IsBudgetPerHour bool   `json:"is_budget_per_hour"`
 	Term            string `json:"term"`
@@ -73,11 +73,11 @@ type UserResponse struct {
 }
 
 type ChannelTaskResponse struct {
-	ApiId   int    `json:"api_id"`
-	ApiHash string `json:"api_hash"`
-	Title   string `json:"title"`
-	Body    string `json:"body"`
-	Url     string `json:"url"`
+	ApiId   int    `json:"api_id" db:"api_id"`
+	ApiHash string `json:"api_hash" db:"api_hash"`
+	Title   string `json:"title" db:"title"`
+	Body    string `json:"body" db:"body"`
+	Url     string `json:"url" db:"task_url"`
 }
 
 type ChannelTasksResponse struct {
@@ -85,10 +85,10 @@ type ChannelTasksResponse struct {
 }
 
 type UserTaskResponse struct {
-	TgId  int    `json:"tg_id"`
-	Title string `json:"title"`
-	Body  string `json:"body"`
-	Url   string `json:"url"`
+	TgId  int    `json:"tg_id" db:"tg_id"`
+	Title string `json:"title" db:"title"`
+	Body  string `json:"body" db:"body"`
+	Url   string `json:"url" db:"task_url"`
 }
 
 type UserTasksResponse struct {

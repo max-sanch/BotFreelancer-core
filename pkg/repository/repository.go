@@ -18,34 +18,46 @@ type User interface {
 	Update(userInput core.UserInput) (int, error)
 }
 
+type Task interface {
+	GetOrCreateCategoryByName(name string) (int, error)
+	GetLastParseTime() (string, error)
+	SetLastParseTime() error
+	GetAllForChannels() ([]core.ChannelTaskResponse, error)
+	GetAllForUsers() ([]core.UserTaskResponse, error)
+	AddTasks(tasksInput core.TasksInput) error
+	DeleteAll() error
+}
+
 type Repository struct {
 	Channel
 	User
+	Task
 }
 
 func NewRepository(db *sqlx.DB) *Repository {
 	return &Repository{
-		Channel: NewChannelPostgres(db),
-		User:    NewUserPostgres(db),
+		Channel:  NewChannelPostgres(db),
+		User:     NewUserPostgres(db),
+		Task:     NewTaskPostgres(db),
 	}
 }
 
 type SettingObject struct {
-	Id         int  `json:"id"`
-	IsSafeDeal bool `json:"is_safe_deal"`
-	IsBudget   bool `json:"is_budget"`
-	IsTerm     bool `json:"is_term"`
+	Id         int  `db:"id"`
+	IsSafeDeal bool `db:"is_safe_deal"`
+	IsBudget   bool `db:"is_budget"`
+	IsTerm     bool `db:"is_term"`
 }
 
 type ChannelObject struct {
-	Id      int    `json:"id"`
-	ApiId   int    `json:"api_id"`
-	ApiHash string `json:"api_hash"`
-	Name    string `json:"name"`
+	Id      int    `db:"id"`
+	ApiId   int    `db:"api_id"`
+	ApiHash string `db:"api_hash"`
+	Name    string `db:"name"`
 }
 
 type UserObject struct {
-	Id       int    `json:"id"`
-	TgId     int    `json:"tg_id"`
-	Username string `json:"username"`
+	Id       int    `db:"id"`
+	TgId     int    `db:"tg_id"`
+	Username string `db:"username"`
 }

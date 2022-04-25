@@ -7,14 +7,11 @@ import (
 )
 
 func (h *Handler) getTasksChannel(c *gin.Context) {
-	tasks := make([]core.ChannelTaskResponse, 0)
-	tasks = append(tasks, core.ChannelTaskResponse{
-		ApiId: 123456,
-		ApiHash: "0123456789abcdef0123456789abcdef",
-		Title: "Test",
-		Body: "Body test",
-		Url: "github.com/max-sanch/BotFreelancer-core",
-	})
+	tasks, err := h.services.Channel.GetTasks()
+	if err != nil {
+		NewErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
 
 	c.JSON(http.StatusOK, core.ChannelTasksResponse{
 		Tasks: tasks,
@@ -90,6 +87,6 @@ func (h *Handler) deleteChannel(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, map[string]string{
-		"status": "OK",
+		"status": "ok",
 	})
 }

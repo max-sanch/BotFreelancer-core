@@ -9,6 +9,15 @@ type UserService struct {
 	repo *repository.Repository
 }
 
+func (s *UserService) GetTasks() ([]core.UserTaskResponse, error) {
+	tasks, err := s.repo.Task.GetAllForUsers()
+	if err != nil {
+		return nil, err
+	}
+
+	return tasks, nil
+}
+
 func NewUserService(repo *repository.Repository) *UserService {
 	return &UserService{repo: repo}
 }

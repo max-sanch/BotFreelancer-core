@@ -53,23 +53,18 @@ CREATE TABLE channel_categories
 
 CREATE TABLE freelance_tasks
 (
-    id                 serial                                               not null unique,
-    fl_name            varchar(256)                                         not null,
-    fl_url             varchar(2048)                                        not null,
-    task_url           varchar(2048)                                        not null,
-    category_id        integer references categories (id) on delete cascade not null,
-    title              varchar(256)                                         not null,
-    body               text                                                 not null,
-    budget             integer                                                       default null,
-    is_budget_per_hour boolean                                                       default null,
-    term               varchar(256)                                                  default null,
-    is_safe_deal       boolean                                              not null default false,
-    datetime           varchar(256)                                         not null
+    id           serial                                               not null unique,
+    task_url     varchar(2048)                                        not null,
+    title        varchar(256)                                         not null,
+    body         text                                                 not null,
+    category_id  integer references categories (id) on delete cascade not null,
+    is_budget    boolean                                              not null default false,
+    is_term      boolean                                              not null default false,
+    is_safe_deal boolean                                              not null default false
 );
 
-CREATE TABLE freelance_sections
+CREATE TABLE last_parsed_tasks
 (
-    id                serial                                                    not null unique,
-    freelance_task_id integer references freelance_tasks (id) on delete cascade not null,
-    name              varchar(256)                                              not null
+    id       serial                   not null unique,
+    datetime timestamp with time zone not null
 );
