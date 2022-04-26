@@ -2,7 +2,6 @@ package main
 
 import (
 	"github.com/joho/godotenv"
-	_ "github.com/lib/pq"
 	"github.com/max-sanch/BotFreelancer-core"
 	"github.com/max-sanch/BotFreelancer-core/pkg/handler"
 	"github.com/max-sanch/BotFreelancer-core/pkg/repository"

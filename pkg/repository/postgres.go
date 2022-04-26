@@ -2,6 +2,7 @@ package repository
 
 import (
 	"fmt"
+	_ "github.com/jackc/pgx/stdlib"
 	"github.com/jmoiron/sqlx"
 )
 
@@ -14,7 +15,6 @@ const (
 	channelCategoriesTable = "channel_categories"
 	categoriesTable        = "categories"
 	freelanceTasksTable    = "freelance_tasks"
-	freelanceSectionsTable = "freelance_sections"
 	lastParsedTasksTable   = "last_parsed_tasks"
 )
 
@@ -28,7 +28,7 @@ type Config struct {
 }
 
 func NewPostgresDB(cfg Config) (*sqlx.DB, error) {
-	db, err := sqlx.Open("postgres", fmt.Sprintf("postgres://%s:%s@%s:%s/%s?sslmode=%s",
+	db, err := sqlx.Open("pgx", fmt.Sprintf("postgres://%s:%s@%s:%s/%s?sslmode=%s",
 		cfg.Username, cfg.Password, cfg.Host, cfg.Port, cfg.DBName, cfg.SSLMode))
 	if err != nil {
 		return nil, err
