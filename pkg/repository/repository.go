@@ -1,12 +1,8 @@
 package repository
 
 import (
-	"os"
-
+	"github.com/jmoiron/sqlx"
 	core "github.com/max-sanch/BotFreelancer-core"
-
-	"github.com/sirupsen/logrus"
-	"github.com/spf13/viper"
 )
 
 type Channel interface {
@@ -38,19 +34,7 @@ type Repository struct {
 	Task
 }
 
-func NewPostgresRepos() *Repository {
-	db, err := newPostgresDB(Config{
-		Host:     viper.GetString("db.host"),
-		Port:     viper.GetString("db.port"),
-		DBName:   viper.GetString("db.dbname"),
-		SSLMode:  viper.GetString("db.sslmode"),
-		Username: viper.GetString("db.username"),
-		Password: os.Getenv("DB_PASSWORD"),
-	})
-	if err != nil {
-		logrus.Fatalf("failed initialize postgres database: %s", err.Error())
-	}
-
+func NewPostgresRepos(db *sqlx.DB) *Repository {
 	return &Repository{
 		Channel: NewChannelPostgres(db),
 		User:    NewUserPostgres(db),
