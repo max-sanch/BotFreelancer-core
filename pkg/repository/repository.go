@@ -34,11 +34,11 @@ type Repository struct {
 	Task
 }
 
-func NewRepository(db *sqlx.DB) *Repository {
+func NewPostgresRepos(db *sqlx.DB) *Repository {
 	return &Repository{
-		Channel:  NewChannelPostgres(db),
-		User:     NewUserPostgres(db),
-		Task:     NewTaskPostgres(db),
+		Channel: NewChannelPostgres(db),
+		User:    NewUserPostgres(db),
+		Task:    NewTaskPostgres(db),
 	}
 }
 

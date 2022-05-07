@@ -2,6 +2,7 @@ package repository
 
 import (
 	"fmt"
+
 	_ "github.com/jackc/pgx/stdlib"
 	"github.com/jmoiron/sqlx"
 )
@@ -27,16 +28,23 @@ type Config struct {
 	SSLMode  string
 }
 
+var postgresDB *sqlx.DB
+
 func NewPostgresDB(cfg Config) (*sqlx.DB, error) {
-	db, err := sqlx.Open("pgx", fmt.Sprintf("postgres://%s:%s@%s:%s/%s?sslmode=%s",
+	if postgresDB != nil {
+		return postgresDB, nil
+	}
+
+	var err error
+	postgresDB, err = sqlx.Open("pgx", fmt.Sprintf("postgres://%s:%s@%s:%s/%s?sslmode=%s",
 		cfg.Username, cfg.Password, cfg.Host, cfg.Port, cfg.DBName, cfg.SSLMode))
 	if err != nil {
 		return nil, err
 	}
 
-	if err := db.Ping(); err != nil {
+	if err := postgresDB.Ping(); err != nil {
 		return nil, err
 	}
 
-	return db, nil
+	return postgresDB, nil
 }

@@ -3,10 +3,12 @@ package service
 import (
 	"bytes"
 	"encoding/json"
+	"net/http"
+
 	core "github.com/max-sanch/BotFreelancer-core"
 	"github.com/max-sanch/BotFreelancer-core/pkg/repository"
+
 	"github.com/spf13/viper"
-	"net/http"
 )
 
 type ChannelService struct {

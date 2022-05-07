@@ -2,10 +2,12 @@ package repository
 
 import (
 	"fmt"
-	"github.com/jmoiron/sqlx"
-	core "github.com/max-sanch/BotFreelancer-core"
 	"strings"
 	"time"
+
+	core "github.com/max-sanch/BotFreelancer-core"
+
+	"github.com/jmoiron/sqlx"
 )
 
 type TaskPostgres struct {
@@ -106,11 +108,9 @@ func (r *TaskPostgres) AddTasks(tasksInput core.TasksInput) error {
 		return err
 	}
 
-
-
 	for _, task := range tasksInput.Tasks {
 		isBudget := task.Budget != 0
-		isTerm :=  task.Term != ""
+		isTerm := task.Term != ""
 
 		categoryId, err := r.GetOrCreateCategoryByName(task.Category)
 		if err != nil {

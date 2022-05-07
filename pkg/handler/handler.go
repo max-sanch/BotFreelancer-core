@@ -1,8 +1,9 @@
 package handler
 
 import (
-	"github.com/gin-gonic/gin"
 	"github.com/max-sanch/BotFreelancer-core/pkg/service"
+
+	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
 )
 

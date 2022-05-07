@@ -1,14 +1,16 @@
 package main
 
 import (
-	"github.com/joho/godotenv"
+	"os"
+
 	"github.com/max-sanch/BotFreelancer-core"
 	"github.com/max-sanch/BotFreelancer-core/pkg/handler"
 	"github.com/max-sanch/BotFreelancer-core/pkg/repository"
 	"github.com/max-sanch/BotFreelancer-core/pkg/service"
+
+	"github.com/joho/godotenv"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
-	"os"
 )
 
 func main() {
@@ -23,10 +25,10 @@ func main() {
 	}
 
 	db, err := repository.NewPostgresDB(repository.Config{
-		Host: viper.GetString("db.host"),
-		Port: viper.GetString("db.port"),
-		DBName: viper.GetString("db.dbname"),
-		SSLMode: viper.GetString("db.sslmode"),
+		Host:     viper.GetString("db.host"),
+		Port:     viper.GetString("db.port"),
+		DBName:   viper.GetString("db.dbname"),
+		SSLMode:  viper.GetString("db.sslmode"),
 		Username: viper.GetString("db.username"),
 		Password: os.Getenv("DB_PASSWORD"),
 	})
@@ -34,7 +36,7 @@ func main() {
 		logrus.Fatalf("failed initialize postgres database: %s", err.Error())
 	}
 
-	repos := repository.NewRepository(db)
+	repos := repository.NewPostgresRepos(db)
 	services := service.NewService(repos)
 	handlers := handler.NewHandler(services)
 

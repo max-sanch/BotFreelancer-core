@@ -49,14 +49,14 @@ func (r *ChannelPostgres) GetByApiId(apiId int) (core.ChannelResponse, error) {
 	}
 
 	channelResponse := core.ChannelResponse{
-		Id: channel.Id,
-		ApiId: channel.ApiId,
+		Id:      channel.Id,
+		ApiId:   channel.ApiId,
 		ApiHash: channel.ApiHash,
-		Name: channel.Name,
+		Name:    channel.Name,
 		Setting: core.SettingResponse{
 			IsSafeDeal: setting.IsSafeDeal,
-			IsBudget: setting.IsBudget,
-			IsTerm: setting.IsTerm,
+			IsBudget:   setting.IsBudget,
+			IsTerm:     setting.IsTerm,
 			Categories: categories,
 		},
 	}
@@ -64,7 +64,7 @@ func (r *ChannelPostgres) GetByApiId(apiId int) (core.ChannelResponse, error) {
 	return channelResponse, nil
 }
 
-func(r *ChannelPostgres) Create(channelInput core.ChannelInput) (int, error) {
+func (r *ChannelPostgres) Create(channelInput core.ChannelInput) (int, error) {
 	tx, err := r.db.Begin()
 	if err != nil {
 		return 0, err
