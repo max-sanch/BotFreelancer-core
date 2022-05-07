@@ -1,8 +1,6 @@
 package main
 
 import (
-	"os"
-
 	"github.com/max-sanch/BotFreelancer-core"
 	"github.com/max-sanch/BotFreelancer-core/pkg/handler"
 	"github.com/max-sanch/BotFreelancer-core/pkg/repository"
@@ -24,19 +22,7 @@ func main() {
 		logrus.Fatalf("error loading env variables: %s", err.Error())
 	}
 
-	db, err := repository.NewPostgresDB(repository.Config{
-		Host:     viper.GetString("db.host"),
-		Port:     viper.GetString("db.port"),
-		DBName:   viper.GetString("db.dbname"),
-		SSLMode:  viper.GetString("db.sslmode"),
-		Username: viper.GetString("db.username"),
-		Password: os.Getenv("DB_PASSWORD"),
-	})
-	if err != nil {
-		logrus.Fatalf("failed initialize postgres database: %s", err.Error())
-	}
-
-	repos := repository.NewPostgresRepos(db)
+	repos := repository.NewPostgresRepos()
 	services := service.NewService(repos)
 	handlers := handler.NewHandler(services)
 

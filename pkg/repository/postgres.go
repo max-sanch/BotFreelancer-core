@@ -30,7 +30,7 @@ type Config struct {
 
 var postgresDB *sqlx.DB
 
-func NewPostgresDB(cfg Config) (*sqlx.DB, error) {
+func newPostgresDB(cfg Config) (*sqlx.DB, error) {
 	if postgresDB != nil {
 		return postgresDB, nil
 	}
