@@ -15,53 +15,28 @@ func NewChannelPostgres(db *sqlx.DB) *ChannelPostgres {
 }
 
 func (r *ChannelPostgres) GetByApiId(apiId int) (core.ChannelResponse, error) {
-	var channel ChannelObject
-	var setting SettingObject
-	var category int
-	var categories []int
+	var channel core.ChannelResponse
+	var settingId int
 
 	query := fmt.Sprintf("SELECT * FROM %s WHERE api_id = %d", channelsTable, apiId)
-	row := r.db.QueryRow(query)
-	if err := row.Scan(&channel.Id, &channel.ApiId, &channel.ApiHash, &channel.Name); err != nil {
+	if err := r.db.Get(&channel, query); err != nil {
 		return core.ChannelResponse{}, err
 	}
 
 	query = fmt.Sprintf("SELECT id, is_safe_deal, is_budget, is_term FROM %s WHERE channel_id = %d",
 		channelSettingsTable, channel.Id)
-	row = r.db.QueryRow(query)
-	if err := row.Scan(&setting.Id, &setting.IsSafeDeal, &setting.IsBudget, &setting.IsTerm); err != nil {
+	row := r.db.QueryRow(query)
+	if err := row.Scan(&settingId, &channel.Setting.IsSafeDeal, &channel.Setting.IsBudget, &channel.Setting.IsTerm); err != nil {
 		return core.ChannelResponse{}, err
 	}
 
 	query = fmt.Sprintf("SELECT category_id FROM %s WHERE channel_setting_id = %d",
-		channelCategoriesTable, setting.Id)
-	rows, err := r.db.Query(query)
-	if err != nil {
+		channelCategoriesTable, settingId)
+	if err := r.db.Select(&channel.Setting.Categories, query); err != nil {
 		return core.ChannelResponse{}, err
 	}
 
-	for rows.Next() {
-		if err := rows.Scan(&category); err != nil {
-			return core.ChannelResponse{}, err
-		}
-
-		categories = append(categories, category)
-	}
-
-	channelResponse := core.ChannelResponse{
-		Id:      channel.Id,
-		ApiId:   channel.ApiId,
-		ApiHash: channel.ApiHash,
-		Name:    channel.Name,
-		Setting: core.SettingResponse{
-			IsSafeDeal: setting.IsSafeDeal,
-			IsBudget:   setting.IsBudget,
-			IsTerm:     setting.IsTerm,
-			Categories: categories,
-		},
-	}
-
-	return channelResponse, nil
+	return channel, nil
 }
 
 func (r *ChannelPostgres) Create(channelInput core.ChannelInput) (int, error) {

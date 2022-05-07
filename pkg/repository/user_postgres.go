@@ -15,50 +15,27 @@ func NewUserPostgres(db *sqlx.DB) *UserPostgres {
 }
 
 func (r *UserPostgres) GetByTgId(tgId int) (core.UserResponse, error) {
-	var user UserObject
-	var setting SettingObject
-	var category int
-	var categories []int
+	var user core.UserResponse
+	var settingId int
 
 	query := fmt.Sprintf("SELECT * FROM %s WHERE tg_id = %d", usersTable, tgId)
+	if err := r.db.Get(&user, query); err != nil {
+		return core.UserResponse{}, err
+	}
+
+	query = fmt.Sprintf("SELECT id, is_safe_deal, is_budget, is_term FROM %s WHERE user_id = %d",
+		userSettingsTable, user.Id)
 	row := r.db.QueryRow(query)
-	if err := row.Scan(&user.Id, &user.TgId, &user.Username); err != nil {
+	if err := row.Scan(&settingId, &user.Setting.IsSafeDeal, &user.Setting.IsBudget, &user.Setting.IsTerm); err != nil {
 		return core.UserResponse{}, err
 	}
 
-	query = fmt.Sprintf("SELECT id, is_safe_deal, is_budget, is_term FROM %s WHERE user_id = %d", userSettingsTable, user.Id)
-	row = r.db.QueryRow(query)
-	if err := row.Scan(&setting.Id, &setting.IsSafeDeal, &setting.IsBudget, &setting.IsTerm); err != nil {
+	query = fmt.Sprintf("SELECT category_id FROM %s WHERE user_setting_id = %d", userCategoriesTable, settingId)
+	if err := r.db.Select(&user.Setting.Categories, query); err != nil {
 		return core.UserResponse{}, err
 	}
 
-	query = fmt.Sprintf("SELECT category_id FROM %s WHERE user_setting_id = %d", userCategoriesTable, setting.Id)
-	rows, err := r.db.Query(query)
-	if err != nil {
-		return core.UserResponse{}, err
-	}
-
-	for rows.Next() {
-		if err := rows.Scan(&category); err != nil {
-			return core.UserResponse{}, err
-		}
-
-		categories = append(categories, category)
-	}
-
-	userResponse := core.UserResponse{
-		Id:       user.Id,
-		TgId:     user.TgId,
-		Username: user.Username,
-		Setting: core.SettingResponse{
-			IsSafeDeal: setting.IsSafeDeal,
-			IsBudget:   setting.IsBudget,
-			IsTerm:     setting.IsTerm,
-			Categories: categories,
-		},
-	}
-
-	return userResponse, nil
+	return user, nil
 }
 
 func (r *UserPostgres) Create(userInput core.UserInput) (int, error) {

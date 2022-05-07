@@ -51,24 +51,24 @@ type TasksInput struct {
 // Response structs
 
 type SettingResponse struct {
-	IsSafeDeal bool  `json:"is_safe_deal"`
-	IsBudget   bool  `json:"is_budget"`
-	IsTerm     bool  `json:"is_term"`
-	Categories []int `json:"categories"`
+	IsSafeDeal bool  `json:"is_safe_deal" db:"is_safe_deal"`
+	IsBudget   bool  `json:"is_budget" db:"is_budget"`
+	IsTerm     bool  `json:"is_term" db:"is_term"`
+	Categories []int `json:"categories" db:"categories"`
 }
 
 type ChannelResponse struct {
-	Id      int             `json:"id"`
-	ApiId   int             `json:"api_id"`
-	ApiHash string          `json:"api_hash"`
-	Name    string          `json:"name"`
+	Id      int             `json:"id" db:"id"`
+	ApiId   int             `json:"api_id" db:"api_id"`
+	ApiHash string          `json:"api_hash" db:"api_hash"`
+	Name    string          `json:"name" db:"name"`
 	Setting SettingResponse `json:"setting"`
 }
 
 type UserResponse struct {
-	Id       int             `json:"id"`
-	TgId     int             `json:"tg_id"`
-	Username string          `json:"username"`
+	Id       int             `json:"id" db:"id"`
+	TgId     int             `json:"tg_id" db:"tg_id"`
+	Username string          `json:"username" db:"username"`
 	Setting  SettingResponse `json:"setting"`
 }
 

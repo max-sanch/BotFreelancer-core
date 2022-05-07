@@ -41,23 +41,3 @@ func NewPostgresRepos(db *sqlx.DB) *Repository {
 		Task:    NewTaskPostgres(db),
 	}
 }
-
-type SettingObject struct {
-	Id         int  `db:"id"`
-	IsSafeDeal bool `db:"is_safe_deal"`
-	IsBudget   bool `db:"is_budget"`
-	IsTerm     bool `db:"is_term"`
-}
-
-type ChannelObject struct {
-	Id      int    `db:"id"`
-	ApiId   int    `db:"api_id"`
-	ApiHash string `db:"api_hash"`
-	Name    string `db:"name"`
-}
-
-type UserObject struct {
-	Id       int    `db:"id"`
-	TgId     int    `db:"tg_id"`
-	Username string `db:"username"`
-}
