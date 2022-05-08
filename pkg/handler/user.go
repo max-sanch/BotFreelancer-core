@@ -22,7 +22,7 @@ func (h *Handler) getUser(c *gin.Context) {
 	var input core.TgIdInput
 
 	if err := c.BindJSON(&input); err != nil {
-		NewErrorResponse(c, http.StatusBadRequest, err.Error())
+		NewErrorResponse(c, http.StatusBadRequest, "invalid input body")
 		return
 	}
 
@@ -39,7 +39,7 @@ func (h *Handler) createUser(c *gin.Context) {
 	var input core.UserInput
 
 	if err := c.BindJSON(&input); err != nil {
-		NewErrorResponse(c, http.StatusBadRequest, err.Error())
+		NewErrorResponse(c, http.StatusBadRequest, "invalid input body")
 		return
 	}
 
@@ -58,7 +58,7 @@ func (h *Handler) updateUser(c *gin.Context) {
 	var input core.UserInput
 
 	if err := c.BindJSON(&input); err != nil {
-		NewErrorResponse(c, http.StatusBadRequest, err.Error())
+		NewErrorResponse(c, http.StatusBadRequest, "invalid input body")
 		return
 	}
 

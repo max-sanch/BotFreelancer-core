@@ -5,6 +5,8 @@ import (
 	"github.com/max-sanch/BotFreelancer-core/pkg/repository"
 )
 
+//go:generate mockgen -source=service.go -destination=mocks/mock.go
+
 type Channel interface {
 	GetTasks() ([]core.ChannelTaskResponse, error)
 	GetByApiId(apiId int) (core.ChannelResponse, error)

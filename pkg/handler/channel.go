@@ -22,7 +22,7 @@ func (h *Handler) getChannel(c *gin.Context) {
 	var input core.ApiIdInput
 
 	if err := c.BindJSON(&input); err != nil {
-		NewErrorResponse(c, http.StatusBadRequest, err.Error())
+		NewErrorResponse(c, http.StatusBadRequest, "invalid input body")
 		return
 	}
 
@@ -39,7 +39,7 @@ func (h *Handler) createChannel(c *gin.Context) {
 	var input core.ChannelInput
 
 	if err := c.BindJSON(&input); err != nil {
-		NewErrorResponse(c, http.StatusBadRequest, err.Error())
+		NewErrorResponse(c, http.StatusBadRequest, "invalid input body")
 		return
 	}
 
@@ -58,7 +58,7 @@ func (h *Handler) updateChannel(c *gin.Context) {
 	var input core.ChannelInput
 
 	if err := c.BindJSON(&input); err != nil {
-		NewErrorResponse(c, http.StatusBadRequest, err.Error())
+		NewErrorResponse(c, http.StatusBadRequest, "invalid input body")
 		return
 	}
 
@@ -77,7 +77,7 @@ func (h *Handler) deleteChannel(c *gin.Context) {
 	var input core.ApiIdInput
 
 	if err := c.BindJSON(&input); err != nil {
-		NewErrorResponse(c, http.StatusBadRequest, err.Error())
+		NewErrorResponse(c, http.StatusBadRequest, "invalid input body")
 		return
 	}
 
