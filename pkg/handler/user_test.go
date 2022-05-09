@@ -61,6 +61,7 @@ func TestHandler_getTasksUser(t *testing.T) {
 			handler := NewHandler(services)
 
 			// Test Server
+			gin.SetMode(gin.TestMode)
 			r := gin.New()
 			r.GET("/getTasksUser", handler.getTasksUser)
 
@@ -144,6 +145,7 @@ func TestHandler_getUser(t *testing.T) {
 			handler := NewHandler(services)
 
 			// Test Server
+			gin.SetMode(gin.TestMode)
 			r := gin.New()
 			r.POST("/getUser", handler.getUser)
 
@@ -236,6 +238,7 @@ func TestHandler_createUser(t *testing.T) {
 			r.POST("/createUser", handler.createUser)
 
 			// Test Request
+			gin.SetMode(gin.TestMode)
 			w := httptest.NewRecorder()
 			req := httptest.NewRequest("POST", "/createUser", bytes.NewBufferString(testCase.inputBody))
 
@@ -320,6 +323,7 @@ func TestHandler_updateUser(t *testing.T) {
 			handler := NewHandler(services)
 
 			// Test Server
+			gin.SetMode(gin.TestMode)
 			r := gin.New()
 			r.POST("/updateUser", handler.updateUser)
 

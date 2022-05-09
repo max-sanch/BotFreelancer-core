@@ -62,6 +62,7 @@ func TestHandler_getTasksChannel(t *testing.T) {
 			handler := NewHandler(services)
 
 			// Test Server
+			gin.SetMode(gin.TestMode)
 			r := gin.New()
 			r.GET("/getTasksChannel", handler.getTasksChannel)
 
@@ -146,6 +147,7 @@ func TestHandler_getChannel(t *testing.T) {
 			handler := NewHandler(services)
 
 			// Test Server
+			gin.SetMode(gin.TestMode)
 			r := gin.New()
 			r.POST("/getChannel", handler.getChannel)
 
@@ -236,6 +238,7 @@ func TestHandler_createChannel(t *testing.T) {
 			handler := NewHandler(services)
 
 			// Test Server
+			gin.SetMode(gin.TestMode)
 			r := gin.New()
 			r.POST("/createChannel", handler.createChannel)
 
@@ -326,6 +329,7 @@ func TestHandler_updateChannel(t *testing.T) {
 			handler := NewHandler(services)
 
 			// Test Server
+			gin.SetMode(gin.TestMode)
 			r := gin.New()
 			r.POST("/updateChannel", handler.updateChannel)
 
@@ -399,6 +403,7 @@ func TestHandler_deleteChannel(t *testing.T) {
 			handler := NewHandler(services)
 
 			// Test Server
+			gin.SetMode(gin.TestMode)
 			r := gin.New()
 			r.POST("/deleteChannel", handler.deleteChannel)
 

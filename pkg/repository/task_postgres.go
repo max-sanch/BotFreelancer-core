@@ -21,13 +21,12 @@ func NewTaskPostgres(db *sqlx.DB) *TaskPostgres {
 func (r *TaskPostgres) GetOrCreateCategoryByName(name string) (int, error) {
 	var id int
 
-	getQuery := fmt.Sprintf("SELECT id FROM %s WHERE lower(name) = '%s';",
-		categoriesTable, strings.ToLower(name))
+	getQuery := fmt.Sprintf("SELECT id FROM %s WHERE lower(name) = $1;", categoriesTable)
 
-	row := r.db.QueryRow(getQuery)
+	row := r.db.QueryRow(getQuery, strings.ToLower(name))
 	if err := row.Scan(&id); err != nil {
-		createQuery := fmt.Sprintf("INSERT INTO %s (name) VALUES ('%s') RETURNING id;", categoriesTable, name)
-		row = r.db.QueryRow(createQuery)
+		createQuery := fmt.Sprintf("INSERT INTO %s (name) VALUES ($1) RETURNING id;", categoriesTable)
+		row = r.db.QueryRow(createQuery, name)
 		if err := row.Scan(&id); err != nil {
 			return 0, err
 		}
@@ -123,10 +122,10 @@ func (r *TaskPostgres) AddTasks(tasksInput core.TasksInput) error {
 		}
 
 		createTaskQuery := fmt.Sprintf(`INSERT INTO %s (task_url, title, body, category_id, is_budget, is_term, is_safe_deal)
-			VALUES ('%s', '%s', '%s', %d, %t, %t, %t);`,
-			freelanceTasksTable, task.TaskUrl, task.Title, body, categoryId, isBudget, isTerm, task.IsSafeDeal)
+			VALUES ($1, $2, $3, $4, $5, $6, $7);`, freelanceTasksTable)
 
-		if _, err := tx.Exec(createTaskQuery); err != nil {
+		if _, err := tx.Exec(createTaskQuery, task.TaskUrl, task.Title, body,
+			categoryId, isBudget, isTerm, task.IsSafeDeal); err != nil {
 			if err := tx.Rollback(); err != nil {
 				return err
 			}
