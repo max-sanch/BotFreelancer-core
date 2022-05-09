@@ -1,2 +1,10 @@
-port: "8080"
+port: "8000"
 releaseMode: "True" # True or False
+url_parse_tasks: "http://localhost:8001/api/parse/data"
+
+db:
+  host: "db"
+  port: "5432"
+  username: "postgres"
+  dbname: "postgres"
+  sslmode: "disable"

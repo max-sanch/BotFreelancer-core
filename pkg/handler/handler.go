@@ -1,8 +1,9 @@
 package handler
 
 import (
-	"github.com/gin-gonic/gin"
 	"github.com/max-sanch/BotFreelancer-core/pkg/service"
+
+	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
 )
 
@@ -25,17 +26,19 @@ func (h *Handler) InitRoutes() *gin.Engine {
 	{
 		channels := api.Group("/channels")
 		{
-			channels.GET("/data")
-			channels.POST("/create")
-			channels.POST("/update")
-			channels.POST("/delete")
+			channels.GET("/data", h.getTasksChannel)
+			channels.POST("/channel", h.getChannel)
+			channels.POST("/create", h.createChannel)
+			channels.POST("/update", h.updateChannel)
+			channels.POST("/delete", h.deleteChannel)
 		}
 
 		users := api.Group("/users")
 		{
-			users.GET("/data")
-			users.POST("/create")
-			users.POST("/update")
+			users.GET("/data", h.getTasksUser)
+			users.POST("/user", h.getUser)
+			users.POST("/create", h.createUser)
+			users.POST("/update", h.updateUser)
 		}
 	}
 
